@@ -170,6 +170,34 @@ bool PID::is_settled(){
     // equivalent of setting it to infinity.
   if (time_spent_settled>settle_time){ cout<<"settle_time reached\n";
     return(true);
+    // to add the function with the sliding window + consecutive checks, we'd only return(true) upon checking the entire
+    // queue to make sure that every flag is set to true. To change this throughout the code, we'd probably make it so that
+    // instead of configuring the settle_time, you'd change the # of settle_flags. 
   }
+  // #################
+  // What advantage could this bring?
+  // #################
+  // settle_time is in theory the safest option. If you don't reach the angle in time due to being blocked,
+  // there's a chance you can continue on with your code and score.
+  // You will always reach the timeout time, which makes the code consistent.
+  // However, it can become frustrating when the robot is inconsistent due to physical limitations,
+  // and sometimes the robot may over/undershoot repeatedly, and settle_time being a static value cannot 
+  // account for this. So, we propose that we have a more dynamic method of checking whether the robot is settled:
+  // We know that settle_time is based on "if robot is within x of y angle, we increment settle_time, so that
+  // once the robot is definitely at y angle, it will relatively quickly (based on the settle_time) be considered to be completely settled."
+  // We then can change the logic to be "if robot is within x of y angle for z consecutive times, then we
+  // can be absolutely sure that the robot is completely settled." This ensures that we can use a singular value, 
+  // Z, for the number of flags, without needing to bother with the settle_time. Additionally, tinkering 
+  // with settle_time throughout the code can produce varying results due to physical variables,
+  // but with our flag implementation we can dynamically allocate time to the robot to find the angle.
+  // ----
+  // #################
+  // Downsides
+  // #################
+  // If the robot's inertial sensor is wrong or extremely inconsistent, it may completely break the logic.
+  // A way to safeguard against this is to instead check for the number of flags set to true, rather than 
+  // every flag being set to true. This path could lead to a robot missing the target though,
+  // so it's better to go with all flags set to true.
+  // ----
   return(false);
 }
