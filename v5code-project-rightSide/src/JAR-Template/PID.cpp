@@ -49,7 +49,21 @@ float settle_error, float settle_time, float timeout) :
   settle_time(settle_time),
   timeout(timeout)
 {};
-
+// On the timeouts, we could redesign it to be a softer cap.
+// Instead of a hard-cut designated time to complete a task, we'd instead just define
+// The maximum of time we'd allow it to go on.
+// This way, timeouts could be configured with much more breathing room while retaining accuracy.
+// Currently, timeouts define the absolute amount of time a task will go on for, so if
+// a task is set to 1000ms timeout, it will absolutely finish and move on in 1000ms.
+// Instead, we propose a timeout that only limits the task if it has not been completed within
+// X amount of time. Setting a task to 1000ms timeout will only finish in 1000ms if the task is 
+// not detected as completed. However, if it successfully completes before the 1000ms timeout, 
+// We can be assured that the task is at its fastest possible completion time.
+// For quality of life features (for debugging and programming), we can allow for this "completion time"
+// to be tracked, making sure that the developer knows, on average, how much time a task will take.
+// This feature is useful in the event that the developer is short on time and needs to know an accurate
+// representation of how long each task takes/the total amount of time (on average). 
+// This feature is slightly more complex so we will leave it for later.
 /**
  * PID constructor with custom update period.
  * The default update period is 10ms, but if you want to run
