@@ -105,6 +105,46 @@ float PID::compute(float error){
 
   if(fabs(error)<settle_error){
     time_spent_settled+=10; //cout<<"error="<<error<<" settle_error="<<settle_error<<" time_spent_settled="<<time_spent_settled<<endl;
+    // We could add something where it has a window of checking how many times in a row fabs(error) has been < settle_error.
+    // This could be achieved through a queue?
+    // Have queue be a set capacity of 5, and upon initializing the queue every value is "False"
+    // We update values in the queue to True or False on each PID::compute on the condition of "is fabs(error)<settle_error", so it keeps up with the existing logic
+    // Each iteration, check the validity of this queue, for example:
+    /*
+    #include <string>
+    
+    struct Flags {
+        bool flag1;
+        bool flag2;
+        bool flag3;
+        // Add more boolean members as needed
+    };
+
+bool allFlagsTrue(const Flags& flags) {
+    return flags.flag1 && flags.flag2 && flags.flag3;
+}
+
+int main() {
+    Flags myFlags = {true, true, true};
+
+    if (allFlagsTrue(myFlags)) {
+        std::cout << "All flags are true" << std::endl;
+    } else {
+        std::cout << "Not all flags are true" << std::endl;
+    }
+
+    myFlags.flag2 = false;
+     if (allFlagsTrue(myFlags)) {
+        std::cout << "All flags are true" << std::endl;
+    } else {
+        std::cout << "Not all flags are true" << std::endl;
+    }
+
+    return 0;
+}
+*/
+    // And with the above structure add functions to input a new value, adding it to the first value and "pushing" the last value out. 
+    // This could be done with #include <queue>. 
   } else {
     time_spent_settled = 0;
   }
