@@ -819,9 +819,10 @@ void pre_auton() {
 void autonomous(void) {
   auto_started = true;
   //AWP_solo(); //slot 2
-  rightSide();//slot 3
+  //rightSide();//slot 3
   //leftSide();//slot4
   //matchLoadtest(); //slot5
+  FlagTest(); // slot 6?
 }
 
 /*---------------------------------------------------------------------------*/

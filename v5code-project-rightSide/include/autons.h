@@ -20,3 +20,4 @@ void AWP_solo();
 void leftSide();
 void rightSide();
 void matchLoadtest();
+void FlagTest();

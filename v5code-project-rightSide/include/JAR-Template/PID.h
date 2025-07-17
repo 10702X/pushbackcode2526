@@ -25,20 +25,21 @@ public:
   float time_spent_running = 0;
   float update_period = 10;
 
-  // New members for flag-based settling
-  int settle_flags_requirement = 0;
+
+  // This will be true if flags are used, false if time is used.
+  bool use_settle_flags = false; 
+  // The required number of consecutive settled cycles.
+  int settle_flags_requirement = 0; 
+  // The current count of consecutive settled cycles.
   int consecutive_settled_count = 0;
 
   PID(float error, float kp, float ki, float kd, float starti);
 
-  PID(float error, float kp, float ki, float kd, float starti, float settle_error, float settle_time, float timeout);
-  
-  PID(float error, float kp, float ki, float kd, float starti, float settle_error, float settle_time, float timeout, float update_period);
 
-  // New constructors for flag-based settling
-  PID(float error, float kp, float ki, float kd, float starti, float settle_error, int settle_flags, float timeout);
+  // Added optional settle_flags parameter to the end.
+  PID(float error, float kp, float ki, float kd, float starti, float settle_error, float settle_time, float timeout, int settle_flags = 0);
 
-  PID(float error, float kp, float ki, float kd, float starti, float settle_error, int settle_flags, float timeout, float update_period);
+  PID(float error, float kp, float ki, float kd, float starti, float settle_error, float settle_time, float timeout, float update_period, int settle_flags = 0);
 
   float compute(float error);
 

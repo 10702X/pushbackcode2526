@@ -523,3 +523,7 @@ void rightSide() {
   int timeUsed = finishTime-startTime;
   cout<<"time used = "<<timeUsed<<endl;
 }
+
+void FlagTest() {
+  
+}
