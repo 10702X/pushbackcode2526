@@ -525,5 +525,7 @@ void rightSide() {
 }
 
 void FlagTest() {
-  
+  chassis.turn_to_angle(90, 6, 1, 300, 700, 15) // 15 flags
+  chassis.drive_distance(10, 45, 6, 6, 1, 300, 700, 15) //also 15 flags
+  // add more tests
 }
